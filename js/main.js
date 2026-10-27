@@ -1,4 +1,4 @@
-import { site, projects } from "./content.js";
+import { site, projects, reviews, reviewsBackground } from "./content.js";
 import { WavePlayer, ABPlayer, setUiSound, uiSound, resume, onStateChange, getContext, pauseAll } from "./audio.js";
 import { heroScope, drawCover } from "./visuals.js";
 import { spatialLab } from "./spatial.js";
@@ -20,6 +20,23 @@ $("#contactLinks").innerHTML = [
   site.email && `<a class="btn btn--primary" href="mailto:${esc(site.email)}">${esc(site.email)}</a>`,
   ...site.links.map(l => `<a class="btn" href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)} <span aria-hidden="true">↗</span></a>`),
 ].filter(Boolean).join("");
+
+// ---------- reviews ----------
+
+$("#reviewsGrid").innerHTML = reviews.map(r => `
+  <figure class="review">
+    <svg class="review__mark" viewBox="0 0 32 24" aria-hidden="true"><path d="M0 24V14C0 6 4 1.5 12 0l1.5 3C9 4.5 7 7.5 7 11h6v13zm18 0V14c0-8 4-12.5 12-14l1.5 3C27 4.5 25 7.5 25 11h6v13z"/></svg>
+    <blockquote>${esc(r.quote)}</blockquote>
+    <figcaption><strong>${esc(r.name)}</strong><span class="mono">${esc(r.role)}</span></figcaption>
+  </figure>`).join("");
+const reviewsBg = $("#reviewsBg");
+if (reviewsBackground.video) {
+  reviewsBg.insertAdjacentHTML("afterbegin", `<video src="${esc(reviewsBackground.video)}" autoplay muted loop playsinline></video>`);
+  reviewsBg.classList.add("has-video");
+} else if (reviewsBackground.image) {
+  // Resolve against the page; a url() inside a custom property resolves against the stylesheet.
+  reviewsBg.style.setProperty("--bg-image", `url("${new URL(reviewsBackground.image, document.baseURI)}")`);
+}
 
 // ---------- project grid ----------
 

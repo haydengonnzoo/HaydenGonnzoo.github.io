@@ -45,7 +45,7 @@ h1, h2, h3 { line-height: 1.05; letter-spacing: -0.02em; margin: 0; }
 .nav__logo { display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; }
 .nav__logo svg { width: 26px; height: 26px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .nav__links { display: flex; gap: 22px; margin-left: auto; }
-.nav__links a { text-decoration: none; color: var(--muted); font-size: 15px; transition: color .2s; }
+.nav__links a { white-space: nowrap; text-decoration: none; color: var(--muted); font-size: 15px; transition: color .2s; }
 .nav__links a:hover { color: var(--text); }
 .sound-toggle {
   display: flex; align-items: center; gap: 8px;
@@ -225,6 +225,45 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
 .readout dd { margin: 2px 0 0; font-size: 15px; color: var(--text); text-transform: none; }
 .lab__note { color: var(--muted); font-size: 13px; margin: 0; }
 
+/* ---------- reviews ---------- */
+/* A Pro Tools session drifts behind the quotes while a playhead sweeps it. */
+.reviews { position: relative; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.reviews__bg { position: absolute; inset: 0; }
+.reviews__bg::before {
+  content: ""; position: absolute; inset: -4% -20% -4% 0;
+  background: var(--bg-image) left center / cover no-repeat;
+  opacity: .32; filter: saturate(.8);
+  animation: session-pan 70s ease-in-out infinite alternate;
+}
+.reviews__bg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .32; }
+.reviews__bg.has-video::before { display: none; }
+.reviews__bg::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(var(--bg), transparent 22%, transparent 78%, var(--bg)),
+    radial-gradient(ellipse at center, rgba(10, 11, 13, .55), rgba(10, 11, 13, .9));
+}
+.reviews__playhead {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 1px; z-index: 1;
+  background: var(--accent); box-shadow: 0 0 14px 1px var(--accent); opacity: .7;
+  animation: playhead 14s linear infinite;
+}
+@keyframes session-pan { to { transform: translateX(-16%); } }
+@keyframes playhead { from { transform: translateX(0); } to { transform: translateX(100vw); } }
+.reviews__inner { position: relative; z-index: 2; }
+.reviews__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.review {
+  margin: 0; display: flex; flex-direction: column; gap: 22px;
+  padding: 30px 28px; border-radius: var(--radius);
+  background: rgba(17, 19, 23, .72); border: 1px solid var(--line);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.review__mark { width: 34px; height: 26px; fill: var(--accent); }
+.review blockquote { margin: 0; font-size: 18px; line-height: 1.6; color: #d9d8d2; flex: 1; }
+.review figcaption { display: flex; flex-direction: column; gap: 4px; padding-top: 18px; border-top: 1px solid var(--line); }
+.review figcaption strong { font-size: 18px; font-weight: 600; }
+.review figcaption span { color: var(--muted); }
+
 /* ---------- about / contact ---------- */
 .about__body { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(32px, 6vw, 80px); }
 .about__bio p { font-size: 19px; color: #c9c8c2; margin: 0 0 18px; }
@@ -237,8 +276,10 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
-  .lab__body, .about__body { grid-template-columns: 1fr; }
+  .lab__body, .about__body, .reviews__grid { grid-template-columns: 1fr; }
   .hero__meter { display: none; }
+  .nav__links a[href="#reviews"] { display: none; }
+  .sound-toggle__label { display: none; }
 }
 @media (max-width: 640px) {
   .nav { gap: 12px; }

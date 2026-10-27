@@ -32,6 +32,28 @@ export const site = {
   ],
 };
 
+// Background for the reviews section. Swap in a video later with
+// reviewsBackground: { video: "assets/video/session.mp4" }
+export const reviewsBackground = { image: "assets/img/protools-session.avif" };
+
+export const reviews = [
+  {
+    name: "Nick White",
+    role: "Mixing Engineer",
+    quote: "Hayden is a very bright and hardworking young man. He has brought a level of professionalism and curiosity to our studio and was a joy to have over the summer.",
+  },
+  {
+    name: "Ronnie Levy",
+    role: "Songwriter",
+    quote: "I've been working with Hayden for over 3 years and he has always been prompt and professional. He has delivered me quality mixes and has had quick turnarounds for final mastering.",
+  },
+  {
+    name: "Aiden Thomason",
+    role: "Game Developer",
+    quote: "Hayden has been a pleasure to work with. He has brought many game demos to life with high quality audio syncing and mixing of new sounds.",
+  },
+];
+
 export const projects = [
   {
     id: "signal-zero",
